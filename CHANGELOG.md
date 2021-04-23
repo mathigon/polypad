@@ -1,5 +1,12 @@
 # Polypad Changelog
 
+## v1.7
+
+### Fixes
+
+* Fix polypad.getSelection() and locking of tiles
+
+
 ## v1.6
 
 ### New Features
