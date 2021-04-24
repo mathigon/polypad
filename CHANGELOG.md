@@ -1,5 +1,12 @@
 # Polypad Changelog
 
+## v1.8
+
+### Fixes
+
+* Improved support for custom undo/redo stacks
+
+
 ## v1.7
 
 ### Fixes
