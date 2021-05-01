@@ -5,7 +5,7 @@
 Our JavaScript API allows you to add interactive Polypad canvases to any website. You simply need to include our JS source file, create a parent element for Polypad, and then call `Polypad.create()`:
 
 ```html
-<script src="https://static.mathigon.org/api/polypad-v1.8.js"></script>
+<script src="https://static.mathigon.org/api/polypad-v1.9.js"></script>
 <div id="polypad" style="width: 800px; height: 500px;"></div>
 <script>Polypad.create(document.querySelector('#polypad'), {apiKey: 'test'})</script>
 ```
@@ -14,7 +14,7 @@ Polypad requires [Custom Web Components](https://developer.mozilla.org/en-US/doc
 
 Our goal is to support the latest version of Chrome, Firefox, Opera and Edge on all mobile and desktop devices.
 
-Note: the `polypad-v1.7.js` script needs to be included in the `<body>`, not the `<head>` of your HTML document.
+Note: the `polypad-v1.9.js` script needs to be included in the `<body>`, not the `<head>` of your HTML document.
 
 
 ## JSON Schema
@@ -48,6 +48,8 @@ interface PolypadData {
   title: string;         // Polypad title
   grid: GridType;
   noLabels: boolean;
+  altColors?: boolean;
+  mergeTiles?: boolean;
   tiles: TileData[];
   strokes: StrokeData[];
 }
@@ -112,7 +114,7 @@ interface PolypadInstance {
 
   // Get the current user selection, or programmatically select multiple existing tiles.
   getSelection: () => string[];
-  selectTiles: (...tileIds: string[]) => void;
+  select: (...tileIds: string[]) => void;
 
   // Undo or redo the latest changes to the canvas.
   undo: () => void;
@@ -181,10 +183,17 @@ __Callback Options__: `{grid: GridType}`
 ### `.on('options')`
 
 Triggered whenever the user changes the canvas options using the settings bar on the left. Options
-include whether to use an alternate colour scheme (`altColors`) and whether to show number labels for
-some tiles (`noLabels`). This event will always be called after the `.setOptions()` method.
+include whether to use an alternate colour scheme (`altColors`), whether to show number labels for
+some tiles (`noLabels`), and whether to merge number cards (`mergeTiles`). This event will always be
+called after the `.setOptions()` method.
 
-__Callback Options__: `{altColors?: boolean, noLabels?: boolean}`
+__Callback Options__: `{altColors?: boolean, noLabels?: boolean, mergeTiles?: boolean}`
+
+### `.on('selection')`
+
+Triggered whenever the current selection changes.
+
+__Callback Options__: `{tiles: string[]}`
 
 ### `.on('move')`
 
@@ -232,8 +241,9 @@ Polypad supports a large number of different tile types.
 | Coin             | `coin`           | TODO… |
 | Spinner          | `spinner`        | TODO… |
 | Custom Spinner   | `custom-spinner` | TODO… |
+| Playing Card     | `card`           | TODO… |
 | Image            | `image`          | The URL of the image, which should be returned by the `imageUpload()` config function. |
-| Text             | `text`           | The text body of the string |
+| Text             | `text`           | :warning: The rich text HTML of the string. Remember to do XSS sanitisation before saving this in a DB. |
 | Equation         | `equation`       | The ASCII-Math expressions |
 | Geometry         | `geo`            | A geometric expression, e.g. `a=point(10,20)` or `c=segment(a,b)` |
 

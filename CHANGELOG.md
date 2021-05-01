@@ -1,5 +1,31 @@
 # Polypad Changelog
 
+## v1.9
+
+### New Features
+
+* Rich text support for text boxes
+* New playing cards component
+* New `mergeTiles` settings option to disable merging of number cards
+* Include settings options(`noLabels`, `altColors`, `mergeTiles`) when serialising and restoring Polypad state
+* New `selection` change event
+
+### Breaking Changes
+
+* Updated sidebar order and new "Tools and Utensils" section
+* Always switch to the `move` tool after pasting or uploading an image
+
+### Fixes
+
+* Fix `change` events triggered by certain actions (merging/splitting fraction bars and number tiles, locking custom polygons)
+* Prevent erasing of locked tiles
+* Fix `.toggleSidebar()`
+* Trigger a change event for balance scales if their configuration changes
+* Trigger a `change` event when pasting images from clipboard
+* Prioritise geo points over other points (or grid points) when snapping vertices
+* Various equation parsing and editing fixes
+
+
 ## v1.8
 
 ### Fixes
@@ -12,6 +38,8 @@
 ### Fixes
 
 * Fix polypad.getSelection() and locking of tiles
+* Fix bugs when deleting dots in dot machine
+* Fix bugs where the dice options value doesn't match the visible face
 
 
 ## v1.6
