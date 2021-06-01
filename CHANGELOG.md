@@ -1,5 +1,35 @@
 # Polypad Changelog
 
+## v1.10
+
+### New Features
+
+* New tables, dominoes and irregular pentagon tiles
+* Graph functions by linking equations to coordinate systems
+* Support for layering and locking tiles using a new `advancedOptions` setting
+* New `labelType` setting for decimal and percentage labels for fraction bars and circles
+* Number input fields for RGB colour picker, new transparency slider
+* New Handle to partially shade fraction bars
+* Improved design for toolbar action buttons
+* New geometry properties popup in toolbar
+
+### Breaking Changes
+
+* New "tools" section in the sidebar, including tables, utensils, number lines and coordinate systems
+* Reduce precision of numbers in stroke strings to 2 decimal places, to reduce size
+* The 
+
+### Fixes
+
+* Fix change events for fraction bars, prime factor circles, number tiles, and other tile types.
+* Equation editor bugs
+  * super and subscript typing, better spacing
+  * serialisation of some expressions
+  * correctly layout equations when elements are hidden
+* Additional sanity checks in case pointer move/end events are triggered before a start event
+* Prevent right-click events
+
+
 ## v1.9
 
 ### New Features

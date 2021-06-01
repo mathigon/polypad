@@ -5,7 +5,7 @@
 Our JavaScript API allows you to add interactive Polypad canvases to any website. You simply need to include our JS source file, create a parent element for Polypad, and then call `Polypad.create()`:
 
 ```html
-<script src="https://static.mathigon.org/api/polypad-v1.9.js"></script>
+<script src="https://static.mathigon.org/api/polypad-v1.10.js"></script>
 <div id="polypad" style="width: 800px; height: 500px;"></div>
 <script>Polypad.create(document.querySelector('#polypad'), {apiKey: 'test'})</script>
 ```
@@ -14,7 +14,7 @@ Polypad requires [Custom Web Components](https://developer.mozilla.org/en-US/doc
 
 Our goal is to support the latest version of Chrome, Firefox, Opera and Edge on all mobile and desktop devices.
 
-Note: the `polypad-v1.9.js` script needs to be included in the `<body>`, not the `<head>` of your HTML document.
+Note: the `polypad-v1.10.js` script needs to be included in the `<body>`, not the `<head>` of your HTML document.
 
 
 ## JSON Schema
@@ -50,6 +50,7 @@ interface PolypadData {
   noLabels: boolean;
   altColors?: boolean;
   mergeTiles?: boolean;
+  labelType?: 'fraction'|'percentage'|'decimal';
   tiles: TileData[];
   strokes: StrokeData[];
 }
@@ -65,7 +66,7 @@ The `Polypad.create()` function takes an options argument with many ways to cust
 
 ```ts
 interface Polypad {
-  create: ({
+  create: (options: {
     apiKey?: string;        // Mathigon-issued API key
     userKey?: string;       // Unique identifier for the current user
 
@@ -122,7 +123,13 @@ interface PolypadInstance {
 
   // Set the background grid or display options. See the `options` event for more details.
   setGrid: (string: GridType) => void;
-  setOptions: (e: {altColors?: boolean, noLabels?: boolean}) => void;
+  setOptions: (e: {
+    altColors?: boolean;
+    advancedOptions?: boolean;
+    mergeTiles?: boolean;
+    labelType?: 'fraction'|'percentage'|'decimal';
+    noLabels?: boolean;
+  }) => void;
 
   // Clear all tiles on the current canvas. Unline .unSerialize({}), this action can be undone.
   clear: () => void;
@@ -187,7 +194,7 @@ include whether to use an alternate colour scheme (`altColors`), whether to show
 some tiles (`noLabels`), and whether to merge number cards (`mergeTiles`). This event will always be
 called after the `.setOptions()` method.
 
-__Callback Options__: `{altColors?: boolean, noLabels?: boolean, mergeTiles?: boolean}`
+__Callback Options__: `{altColors?: boolean, advancedOptions?: boolean, noLabels?: boolean, mergeTiles?: boolean, labelType?: 'fraction'|'percentage'|'decimal'}`
 
 ### `.on('selection')`
 
@@ -214,34 +221,38 @@ Polypad supports a large number of different tile types.
 | Polyominoes      | `pentomino`      | Index from `0` to `11` for pentominoes and `12` to `16` for tetrominoes |
 | Tangram          | `tangram`        | Index from `0` to `6` |
 | Tangram Egg      | `egg`            | Index from `0` to `8` |
-| Ruler            | `ruler`          | Width, e.g. `400` |
-| Protractor       | `protractor`     | Width, e.g. `200` |
 | Penrose Tiles    | `penrose`        | Either `0` or `1` |
 | Penrose Nature   | `garden`         | Index from `0` to `7` |
-| Kolam Tiles      | `kolam`          | Index from `0` to `5` |
+| Pentagon Tile    | `pentagon`       | Index from `0` to `17` |
 | Fractals         | `fractal`        | Index from `0` (large) to `4` (small) |
+| Kolam Tiles      | `kolam`          | Index from `0` to `5` |
 | Tantrix Tiles    | `tantrix`        | Index from `0` to `13` |
 | Number Tiles     | `number-tile`    | `${width}:${count}`, e.g. `10:100` for a 10x10 block of tiles |
 | Number Bars      | `number-bar`     | Width from `1` to `10` |
-| Number Line      | `number-line`    | TODO… |
-| Prime Circle     | `prime-disk`     | TODO… |
-| Number Card      | `number-card`    | TODO… |
-| Decimal Grid     | `decimal-grid`   | TODO… |
-| Dot Machine      | `dot-machine`    | TODO… |
-| Abacus           | `abacus`         | TODO… |
-| Exploding Dot    | `dot`            | TODO… |
-| Fraction Bars    | `fraction-bar`   | TODO… |
-| Fraction Circles | `fraction-circle`| TODO… |
-| Algebra Tiles    | `algebra-tile`   | TODO… |
-| Algebra Grid     | `grid`           | TODO… |
-| Balance Scale    | `balance`        | TODO… |
-| Balance Tokens   | `token`          | TODO… |
-| Coordinate Axes  | `axes`           | TODO… |
-| Dice             | `dice`           | TODO… |
-| Coin             | `coin`           | TODO… |
-| Spinner          | `spinner`        | TODO… |
-| Custom Spinner   | `custom-spinner` | TODO… |
-| Playing Card     | `card`           | TODO… |
+| Prime Circle     | `prime-disk`     |  |
+| Number Card      | `number-card`    |  |
+| Decimal Grid     | `decimal-grid`   |  |
+| Abacus           | `abacus`         |  |
+| Exploding Dot    | `dot`            |  |
+| Dot Machine      | `dot-machine`    |  |
+| Bucket of Zero   | `bucket`         |  |
+| Fraction Bars    | `fraction-bar`   |  |
+| Fraction Circles | `fraction-circle`|  |
+| Algebra Tiles    | `algebra-tile`   |  |
+| Algebra Grid     | `grid`           |  |
+| Balance Scale    | `balance`        |  |
+| Balance Tokens   | `token`          |  |
+| Dice             | `dice`           |  |
+| Coin             | `coin`           |  |
+| Spinner          | `spinner`        |  |
+| Custom Spinner   | `custom-spinner` |  |
+| Playing Card     | `card`           |  |
+| Domino           | `domino`         |  |
+| Number Line      | `number-line`    |  |
+| Coordinate Axes  | `axes`           |  |
+| Ruler            | `ruler`          | Width, e.g. `400` |
+| Protractor       | `protractor`     | Width, e.g. `200` |
+| Table            | `table`          |  |
 | Image            | `image`          | The URL of the image, which should be returned by the `imageUpload()` config function. |
 | Text             | `text`           | :warning: The rich text HTML of the string. Remember to do XSS sanitisation before saving this in a DB. |
 | Equation         | `equation`       | The ASCII-Math expressions |
@@ -250,11 +261,11 @@ Polypad supports a large number of different tile types.
 
 ## Future Features
 
+* [ ] Customisation options for which items to show in the sidebar, toolbar and settings menu
+* [ ] Animate the position of tiles in `.update()`, rather than changing the position instantly.
+* [ ] Animate the drawing of strokes in `.add()`.
 * [ ] Expose additional, internal methods and events
 * [ ] Customise the maximum zoom/pan limits
-* [ ] Animate the drawing of strokes in `.add()`.
-* [ ] Animate the position of tiles in `.update()`, rather than changing the position instantly.
 * [ ] Switch colour scheme (light/dark)
-* [ ] Customisation options for which items to show in the sidebar, toolbar and settings menu
 * [ ] Support non-English languages
 * [ ] Support including the script in the `<head>`. Currently, it accesses `document.body`, so it needs to be included in the `<body>`.
