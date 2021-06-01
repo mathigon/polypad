@@ -17,15 +17,14 @@
 
 * New "tools" section in the sidebar, including tables, utensils, number lines and coordinate systems
 * Reduce precision of numbers in stroke strings to 2 decimal places, to reduce size
-* The 
 
 ### Fixes
 
-* Fix change events for fraction bars, prime factor circles, number tiles, and other tile types.
+* Fix change events for fraction bars, prime factor circles and number tiles
 * Equation editor bugs
-  * super and subscript typing, better spacing
-  * serialisation of some expressions
-  * correctly layout equations when elements are hidden
+  * Super and subscript typing, better spacing
+  * Serialisation of some expressions
+  * Correctly layout equations when elements are hidden
 * Additional sanity checks in case pointer move/end events are triggered before a start event
 * Prevent right-click events
 
