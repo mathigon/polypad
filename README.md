@@ -5,7 +5,7 @@
 Our JavaScript API allows you to add interactive Polypad canvases to any website. You simply need to include our JS source file, create a parent element for Polypad, and then call `Polypad.create()`:
 
 ```html
-<script src="https://static.mathigon.org/api/polypad-v1.10.js"></script>
+<script src="https://static.mathigon.org/api/polypad-v2.0.js"></script>
 <div id="polypad" style="width: 800px; height: 500px;"></div>
 <script>Polypad.create(document.querySelector('#polypad'), {apiKey: 'test'})</script>
 ```
@@ -158,10 +158,14 @@ event listeners. The following events are supported:
 ### `.on('change')`
 
 This event is triggered whenever the state of the Polypad changes because the user has added,
-updated or deleted a stroke or tile.  Note that multiple different tiles can change at once, but the
+updated or deleted a stroke or tile. Note that multiple different tiles can change at once, but the
 event is only triggered once at the _end_ of a move or rotate action.
 
-__Callback Options__: `{added: (TileData|StrokeData)[], changed: TileData[], deleted: (TileData|StrokeData)[]}`
+The `.change()` event returns an array with the `[pevious, updated]` state of every tile that was
+changed. This can be useful for maintaining your own undo/redo stacks. Note that strokes cannot
+change, only be created or deleted.
+
+__Callback Options__: `{added: (TileData|StrokeData)[], changed: [TileData, TileData][], deleted: (TileData|StrokeData)[]}`
 
 ### `.on('viewport')`
 

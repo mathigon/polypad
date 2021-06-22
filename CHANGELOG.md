@@ -1,5 +1,25 @@
 # Polypad Changelog
 
+## v2.0
+
+## Breaking Changes
+
+* Updated change and undo/redo handling
+  * The undo and redo button now only apply to actions by the user, not to tiles added or modified programatically
+  * The `.on('change')` event now returns arrays with the previous and updated state of tiles that have changed
+
+## New Features
+
+* Significantly improved undo/redo and serialisation performance
+* Selection is preserved for many undo/redo actions
+
+## Fixes
+
+* Improved change detection when dealing with geometry construction tools, balance scales merging, splitting number cards or prime factor circles, linking equations to coordinate systems, and dragging new tiles from the sidebar onto the canvas
+* Improved function plotting of implicit equations and containing chained multiplication
+* Number lines now rotate around their actual center
+
+
 ## v1.10
 
 ### New Features
