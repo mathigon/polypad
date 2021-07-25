@@ -1,19 +1,54 @@
 # Polypad Changelog
 
+## v2.1
+
+### Breaking Changes
+
+* Simplified sidebar with renamed sections and grouped tools
+* Separate toolbar buttons for text boxes and equation editor
+* New keyboard shortcuts for every tool type (see tooltips), and changed shortcuts for focussing the toolbar and canvas
+* New option to "negate" number cards, and changed default colours for number cards
+
+### New Features
+
+* New option to show a second tab in the sidebar
+* New "number frame", "number dot" and "number grid" tile types
+* New Polyhedral dice tile
+* New advanced options to "hide" and "lock the position" of tiles
+* Algebra tiles for y, y2 and xy
+* New "join" action to merge multiple polygon tiles
+* "Expand" and "reduce" options for fraction bars, including denominators up to 1/24
+* Shuffle, draw and stack options for playing cards
+* Double-click tiles (e.g. dice and spinners) to randomise or to draw a card
+* "Flip" action for ruler and protractor
+
+### Fixes
+
+* Better support for algebra tiles on balance scales, including to solve quadratic equations
+* Only trigger change events at the end of moving a colour picker slider
+* Fix numberline resizing when rotated, snap tiles to numberline subdivisions
+* Hide "exploding dot machine" labels if "hide number labels" option is selected
+* Fix equation colouring and tile collision bugs
+* Fix undo/redo issues with "lock" option
+* Updated icons and resized undo/redo icons
+* Fix weight of "10" playing card
+* Fix issues with pressing enter to navigate between table cells
+
+
 ## v2.0
 
-## Breaking Changes
+### Breaking Changes
 
 * Updated change and undo/redo handling
   * The undo and redo button now only apply to actions by the user, not to tiles added or modified programatically
   * The `.on('change')` event now returns arrays with the previous and updated state of tiles that have changed
 
-## New Features
+### New Features
 
 * Significantly improved undo/redo and serialisation performance
 * Selection is preserved for many undo/redo actions
 
-## Fixes
+### Fixes
 
 * Improved change detection when dealing with geometry construction tools, balance scales merging, splitting number cards or prime factor circles, linking equations to coordinate systems, and dragging new tiles from the sidebar onto the canvas
 * Improved function plotting of implicit equations and containing chained multiplication

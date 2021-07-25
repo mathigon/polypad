@@ -6,22 +6,26 @@
 </head>
 <body>
   <h1>Polypad API Demo</h1>
-  <div id="polypad" style="width: 800px; height: 600px;"></div>
-  <script src="https://static.mathigon.org/api/polypad-v2.0.js"></script>
+  <div id="polypad" style="width: 800px; height: 600px;">
+    <p>Content inside the second sidebar tab!</p>
+  </div>
+  <script src="https://static.mathigon.org/api/polypad-v2.1.js"></script>
   <script>
     (async function() {
-      const polypad = await Polypad.create(document.getElementById('polypad'), {
+      const parent = document.getElementById('polypad');
+      const polypad = await Polypad.create(parent, {
         apiKey: 'test',
         bindKeyboardEvents: true,
+        sidebarTab: {title: 'Examples', icon: 'folder-shared'},
         imageUpload: () => 'test.jpg'
       });
       polypad.on('change', e => console.log('change', e));
-      polypad.on('undo', e => console.log('undo'));
+      polypad.on('undo', () => console.log('undo'));
       polypad.on('redo', () => console.log('redo'));
-      polypad.on('viewport', e => console.log('viewport', e));
       polypad.on('grid', e => console.log('grid', e));
       polypad.on('options', e => console.log('options', e));
       polypad.on('selection', e => console.log('selection', e));
+      polypad.on('viewport', e => console.log('viewport', e));
 
       const b1 = polypad.addCustomButton('settings', '<svg width="24" height="24"></svg>');
       b1.addEventListener('click', () => polypad.setOptions({altColors: true}));
@@ -32,6 +36,9 @@
           polypad.update(tile, {locked: true});
         }
       });
+
+      const b3 = polypad.addCustomButton('settings', '<span>A</span>');
+      b3.addEventListener('click', () => polypad.add({name: 'polygon', options: 'square', x: 200, y: 200, rot: 45}));
     })();
   </script>
 </body>
